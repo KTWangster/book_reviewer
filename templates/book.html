@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    Books
+{% endblock %}
+
+{% block body %}
+
+<!--*** ADD BOOK REVIEW DISPLAY ***-->
+
+    <ul>
+        {% for review in reviews %}
+            <li>{{ review }}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('book') }}" method="post">
+        <input type="text" name="review" placeholder="Enter review here">
+        <button>Submit Review</button>
+    </form>
+
+{% endblock %}

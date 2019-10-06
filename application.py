@@ -20,7 +20,36 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-
+# Home/Login page
 @app.route("/")
 def index():
     return "Project 1: TODO"
+
+# Search page
+@app.route("/search", methods=["POST"])
+def search():
+    """Search for a book."""
+
+    # Search bar
+    title = request.form.get("title")
+    try:
+        book_id = int(request.form.get("book_id"))
+    except ValueError:
+        return render_template("error.html", message="Invalid book title.")
+
+    # Make sure book exists
+    if db.execute("SELECT * FROM books WHERE id = :id", {"id": book_id}).rowcount == 0:
+        return render_template("error.html", message="No such book.")
+    db.commit()
+
+# Book display page - Details of book + Ability to submit review
+@app.route("/book", methods=["GET", "POST"])
+# Displays book details
+
+# Allows users to submit reviews
+def index():
+    if request.method == "POST":
+        review = request.form.get("review")
+        reviews.append(review)
+    
+    return render_template("book.html", reviews=reviews)
