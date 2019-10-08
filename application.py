@@ -23,6 +23,7 @@ db = scoped_session(sessionmaker(bind=engine))
 # Home/Login page
 @app.route("/")
 def index():
+    # Login
     return "Project 1: TODO"
 
 # Search page
@@ -38,13 +39,17 @@ def search():
         return render_template("error.html", message="Invalid book title.")
 
     # Make sure book exists
-    if db.execute("SELECT * FROM books WHERE id = :id", {"id": book_id}).rowcount == 0:
+    book = db.execute("SELECT * FROM books WHERE id = :id", {"id": book_id}).fetchone()
+    if book is None:    
         return render_template("error.html", message="No such book.")
     db.commit()
 
 # Book display page - Details of book + Ability to submit review
 @app.route("/book", methods=["GET", "POST"])
 # Displays book details
+
+@app.route("logout", methods=["GET"])
+# Displays logou message
 
 # Allows users to submit reviews
 def index():
